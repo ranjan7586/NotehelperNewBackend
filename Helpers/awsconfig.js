@@ -2,7 +2,7 @@ const { S3Client, GetObjectCommand, DeleteObjectCommand } = require('@aws-sdk/cl
 const { Upload } = require('@aws-sdk/lib-storage');
 const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
 const dotenv = require('dotenv');
-dotenv.config({ path: "Backend/config/config.env" });
+dotenv.config({ path: "config/config.env" });
 
 const s3 = new S3Client({
   region: process.env.AWS_REGION,

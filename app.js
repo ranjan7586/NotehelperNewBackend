@@ -45,11 +45,11 @@ app.use(allowCrossDomain);
 // }));
 app.use(errMiddleware);
 
-app.use(express.static(path.join(__dirname, "../frontend/build")));
+// app.use(express.static(path.join(__dirname, "../frontend/build")));
 
-app.use('*', function (req, res) {
-    res.sendFile(path.join(__dirname, '../frontend/public/index.html'));
-})
+// app.use('*', function (req, res) {
+//     res.sendFile(path.join(__dirname, '../frontend/public/index.html'));
+// })
 
 // if(process.env.NODE_ENV=="production"){
 //     app.use(express.static("frotend/build"));
