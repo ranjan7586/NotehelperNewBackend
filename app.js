@@ -6,14 +6,14 @@ const errMiddleware = require("./middleware/error");
 const cors = require('cors');
 app.use(express.json());
 //route import
-const allowedOrigins = ['http://localhost:3000']; // Add your website's domain here
+const allowedOrigins = ['https://notehelper02.onrender.com']; // Add your website's domain here
 
 // /*
 const corsOptions = {
     origin: function (origin, callback) {
         console.log('Origin:', origin); // Debugging
         if (!origin) {
-            return callback(new Error('Origin header is missing'), false);
+            return callback(new Error('Sorry! Access Denied'), false);
         }
         if (allowedOrigins.indexOf(origin) === -1) {
             const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
