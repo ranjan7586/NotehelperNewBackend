@@ -6,7 +6,7 @@ const errMiddleware = require("./middleware/error");
 const cors = require('cors');
 app.use(express.json());
 //route import
-const allowedOrigins = ['https://notehelper02.onrender.com']; // Add your website's domain here
+const allowedOrigins = ['https://notehelper02.onrender.com','http://localhost:3000']; // Add your website's domain here
 
 // /*
 const corsOptions = {

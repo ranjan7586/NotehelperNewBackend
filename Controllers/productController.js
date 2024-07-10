@@ -106,7 +106,7 @@ exports.getAllProducts = catchAsyncError(async (req, res) => {
 //Get Note Details
 
 exports.getNoteDetails = catchAsyncError(async (req, res, next) => {
-  const note = await Product.findById(req.params.slug);
+  const note = await Product.findById(req.params.slug).populate('domain');
   // const note = await Product.findOne({ slug: req.params.slug }).populate('domain').select('-image -thenote');
   if (!note) {
     return next(new ErrorHandler("Note not found", 404))
@@ -160,7 +160,8 @@ exports.updateNotes = catchAsyncError(async (req, res, next) => {
   const id = req.params.id;
   const { name, slug, domain, author, description } = req.body;
   const image = req.files && req.files.image ? req.files.image[0] : null;
-  const thenote = req.files && req.files.note ? req.files.thenote[0] : null;
+  const thenote = req.files && req.files.thenote ? req.files.thenote[0] : null;
+  console.log(req.files)
 
   const note = await Product.findById(id);
   if (!note) {

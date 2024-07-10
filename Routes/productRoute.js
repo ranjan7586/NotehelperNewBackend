@@ -13,7 +13,7 @@ router.route("/notes").get(getAllProducts);
 //get a single note
 router.route("/notes/get-a-note/:slug").get(getNoteDetails);
 
-router.route("/notes/:id").put(requireSignIn,isAdmin,updateNotes);
+router.route("/notes/:id").post(requireSignIn,isAdmin,uploadFiles,updateNotes);
 
 //get image
 router.route("/notes/note-image/:pid").get(getNoteImage);
