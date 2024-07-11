@@ -307,10 +307,29 @@ exports.searchNoteController = catchAsyncError(async (req, res) => {
   const result = await Product.find({
     $or: [
       { name: { $regex: keyword, $options: "i" } },
-      { description: { $regex: keyword, $options: "i" } }
+      { description: { $regex: keyword, $options: "i" } },
+      { author: { $regex: keyword, $options: "i" } }
     ]
-  }).select('-image')
-  res.json(result);
+  }).populate('domain');
+  if (!result) {
+    return next(new ErrorHandler("Note not found", 404))
+  }
+  let processedNotes = [];
+  for (let note of result) {
+    const imageUrl = await getPreSignedUrl(note.image);
+    const noteUrl = await getPreSignedUrl(note.thenote);
+
+    processedNotes.push({
+      ...note._doc,
+      imageUrl,
+      noteUrl
+    });
+  }
+
+  res.status(200).json({
+    success: true,
+    notes: processedNotes,
+  });
 })
 
 //related Product Controller

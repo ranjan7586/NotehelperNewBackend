@@ -2,7 +2,9 @@ const jwt = require("jsonwebtoken");
 const userModels = require("../models/userModels");
 exports.requireSignIn = async (req, res, next) => {
     try {
+        
         const authHeader = req.headers.authorization;
+        console.log(authHeader);
         if (authHeader && authHeader.startsWith('Bearer ')) {
             req.token = authHeader.split(' ')[1];
         }

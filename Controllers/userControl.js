@@ -163,8 +163,9 @@ exports.updateProfileController = catchAsyncError(async function (req, res) {
 
 //get all user
 exports.getAllUsers = catchAsyncError(async (req, res) => {
-
+    
     const userCount = await User.countDocuments();
+    console.log(userCount);
     const resultPerPage = 5;
     const users = await User.find({}).sort({ createdAt: -1 })
     res.status(200).send({
