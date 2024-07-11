@@ -4,13 +4,14 @@ exports.requireSignIn = async (req, res, next) => {
     try {
         
         const authHeader = req.headers.authorization;
-        console.log(authHeader);
+        // console.log(authHeader);
         if (authHeader && authHeader.startsWith('Bearer ')) {
             req.token = authHeader.split(' ')[1];
         }
         else {
             req.token = req.headers.authorization;
         }
+        console.log(req.token)
         const decode = jwt.verify(
             req.token,
             process.env.SECRET_KEY

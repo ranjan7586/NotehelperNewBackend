@@ -61,13 +61,17 @@ exports.createNotes = catchAsyncError(async (req, res, next) => {
 //Get All product
 
 exports.getAllProducts = catchAsyncError(async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+  const startIndex = (page - 1) * limit;
+
 
   const productCount = await Product.countDocuments();
   const resultPerPage = 5;
 
   // const apiFeatures = new ApiFeature(Product.find(), req.query).search().filter().pagination(resultPerPage);
   // const notes = await apiFeatures.query;
-  const notes = await Product.find({}).populate('domain').sort({ createdAt: -1 });
+  const notes = await Product.find({}).skip(startIndex).limit(limit).populate('domain').sort({ createdAt: -1 });
   let processedNotes = [];
   for (let note of notes) {
     const imageUrl = await getPreSignedUrl(note.image);
@@ -76,6 +80,7 @@ exports.getAllProducts = catchAsyncError(async (req, res) => {
     processedNotes.push({
       ...note._doc,
       imageUrl,
+      page,
       noteUrl
     });
   }
@@ -161,7 +166,6 @@ exports.updateNotes = catchAsyncError(async (req, res, next) => {
   const { name, slug, domain, author, description } = req.body;
   const image = req.files && req.files.image ? req.files.image[0] : null;
   const thenote = req.files && req.files.thenote ? req.files.thenote[0] : null;
-  console.log(req.files)
 
   const note = await Product.findById(id);
   if (!note) {
