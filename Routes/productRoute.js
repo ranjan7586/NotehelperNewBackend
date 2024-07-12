@@ -21,7 +21,7 @@ router.route("/notes/note-image/:pid").get(getNoteImage);
 router.route("/notes/note/:pid").get(getTheNote);
 
 //filter notes by domian
-router.route("/notes/note-filters").post(notesFilterDomain);
+router.route("/notes/note-filter-domain/:slug").get(notesFilterDomain);
 
 //total count
 router.route("/notes/note-count").get(noteCount);

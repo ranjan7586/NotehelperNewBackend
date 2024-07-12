@@ -275,12 +275,15 @@ exports.deleteNotes = catchAsyncError(async (req, res, next) => {
 
 // filters
 exports.notesFilterDomain = catchAsyncError(async (req, res, next) => {
-  const { checked } = req.body;
+  const { slug } = req.params;
+  const checkArray = slug.split(',');
   let args = {}
-  if (checked.length > 0) args.domain = checked
+  if (checkArray.length > 0) args.domain = checkArray
   const notes = await Product.find(args).populate('domain');
+  const notesCount = await Product.find(args).populate('domain').count();
   res.status(200).send({
     success: true,
+    count: notesCount,
     notes
   })
 })
@@ -329,19 +332,41 @@ exports.searchNoteController = catchAsyncError(async (req, res) => {
       noteUrl
     });
   }
+  if(processedNotes.length>0){
+    res.status(200).json({
+      success: true,
+      notes: processedNotes,
+    });
+  }
+  else{
+    res.json({
+      success: false,
+      status:404,
+      message: "Note not found",
+    });
+  }
 
-  res.status(200).json({
-    success: true,
-    notes: processedNotes,
-  });
+
 })
 
 //related Product Controller
 exports.relatedProductController = catchAsyncError(async (req, res) => {
   const { pid, did } = req.params;
-  const notes = await Product.find({ domain: did, _id: { $ne: pid } }).populate('domain').select('-image -thenote').limit(3)
+  const notes = await Product.find({ domain: did, _id: { $ne: pid } }).populate('domain').limit(3)
+  let processedNotes = [];
+  for (let note of notes) {
+    const imageUrl = await getPreSignedUrl(note.image);
+    const noteUrl = await getPreSignedUrl(note.thenote);
+
+    processedNotes.push({
+      ...note._doc,
+      imageUrl,
+      noteUrl
+    });
+  }
+
   res.status(200).send({
     success: true,
-    notes
+    notes:processedNotes
   })
 })
