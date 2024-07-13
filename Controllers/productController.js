@@ -285,6 +285,7 @@ exports.notesFilterDomain = catchAsyncError(async (req, res, next) => {
   for (let note of notes) {
     const imageUrl = await getPreSignedUrl(note.image);
     const noteUrl = await getPreSignedUrl(note.thenote);
+    console.log(imageUrl,noteUrl);
 
     processedNotes.push({
       ...note._doc,
@@ -294,8 +295,8 @@ exports.notesFilterDomain = catchAsyncError(async (req, res, next) => {
   }
   res.status(200).send({
     success: true,
-    count: processedNotes,
-    notes
+    count: notesCount,
+    notes:processedNotes
   })
 })
 
