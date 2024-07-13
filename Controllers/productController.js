@@ -282,7 +282,7 @@ exports.notesFilterDomain = catchAsyncError(async (req, res, next) => {
   const notes = await Product.find(args).populate('domain');
   const notesCount = await Product.find(args).populate('domain').count();
   let processedNotes = [];
-  for (let note of result) {
+  for (let note of notes) {
     const imageUrl = await getPreSignedUrl(note.image);
     const noteUrl = await getPreSignedUrl(note.thenote);
 
