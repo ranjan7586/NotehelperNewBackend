@@ -281,9 +281,20 @@ exports.notesFilterDomain = catchAsyncError(async (req, res, next) => {
   if (checkArray.length > 0) args.domain = checkArray
   const notes = await Product.find(args).populate('domain');
   const notesCount = await Product.find(args).populate('domain').count();
+  let processedNotes = [];
+  for (let note of result) {
+    const imageUrl = await getPreSignedUrl(note.image);
+    const noteUrl = await getPreSignedUrl(note.thenote);
+
+    processedNotes.push({
+      ...note._doc,
+      imageUrl,
+      noteUrl
+    });
+  }
   res.status(200).send({
     success: true,
-    count: notesCount,
+    count: processedNotes,
     notes
   })
 })
