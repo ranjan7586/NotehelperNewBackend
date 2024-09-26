@@ -50,6 +50,7 @@ app.use(allowCrossDomain);
 app.use(errMiddleware);
 let count=0;
 app.get('/api/v1/img', (req, res) => {
+    console.log(req.headers);
     res.send('<img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png">');
     console.log("Hello BRo Success");
     count++;
