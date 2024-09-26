@@ -6,7 +6,7 @@ const errMiddleware = require("./middleware/error");
 const cors = require('cors');
 app.use(express.json());
 //route import
-const allowedOrigins = ['https://notehelper02.onrender.com','http://localhost:3000']; // Add your website's domain here
+const allowedOrigins = ['https://notehelper02.onrender.com','http://localhost:3000',*]; // Add your website's domain here
 
 // /*
 const corsOptions = {
@@ -44,6 +44,13 @@ app.use(allowCrossDomain);
 //     origin: "http://localhost:3300"
 // }));
 app.use(errMiddleware);
+let count=0;
+app.get('/api/v1/img', (req, res) => {
+    res.send('<img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png">');
+    console.log("Hello BRo Success");
+    count++;
+    console.log(count);
+});
 
 // app.use(express.static(path.join(__dirname, "../frontend/build")));
 
