@@ -9,18 +9,22 @@ app.use(express.json());
 const allowedOrigins = ['https://notehelper02.onrender.com','http://localhost:3000',*]; // Add your website's domain here
 
 // /*
+// const corsOptions = {
+//     origin: function (origin, callback) {
+//         console.log('Origin:', origin); // Debugging
+//         if (!origin) {
+//             return callback(new Error('Sorry! Access Denied'), false);
+//         }
+//         if (allowedOrigins.indexOf(origin) === -1) {
+//             const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+//             return callback(new Error(msg), false);
+//         }
+//         return callback(null, true);
+//     },
+//     optionsSuccessStatus: 200
+// };
 const corsOptions = {
-    origin: function (origin, callback) {
-        console.log('Origin:', origin); // Debugging
-        if (!origin) {
-            return callback(new Error('Sorry! Access Denied'), false);
-        }
-        if (allowedOrigins.indexOf(origin) === -1) {
-            const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-            return callback(new Error(msg), false);
-        }
-        return callback(null, true);
-    },
+    origin: true, // Allow all origins
     optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
